@@ -209,7 +209,7 @@ class TS3BaseConnection(object):
     # ------------------------------------------------
 
     def open(self, host, port=None,
-             timeout=socket._GLOBAL_DEFAULT_TIMEOUT):
+             timeout=30):
         """
         Connect to the TS3 query service listening on the address given by the
         *host* and *port* parameters. If *timeout* is provided, this is the
@@ -288,7 +288,7 @@ class TS3BaseConnection(object):
     # Receiving
     # -------------------------
 
-    def _recv(self, timeout=None):
+    def _recv(self, timeout=180):
         """
         Blocks, until a message (response or event) has been received.
 
@@ -341,7 +341,7 @@ class TS3BaseConnection(object):
                     self._telnet_queue.append(data)
         return None
 
-    def wait_for_event(self, timeout=None):
+    def wait_for_event(self, timeout=180):
         """
         Blocks until an event is received or the *timeout* exceeds. The next
         received event is returned.
@@ -386,7 +386,7 @@ class TS3BaseConnection(object):
 
         return self._event_queue.pop(0) if self._event_queue else None
 
-    def _wait_for_resp(self, timeout=None):
+    def _wait_for_resp(self, timeout=180):
         """
         Waits for the response to the last issued query.
 
@@ -430,7 +430,7 @@ class TS3BaseConnection(object):
         return None
 
     def send(self, command, common_parameters=None, unique_parameters=None,
-             options=None, properties=None, timeout=None):
+             options=None, properties=None, timeout=180):
         """
         The general structure of a query command is::
 
